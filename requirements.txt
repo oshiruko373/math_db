@@ -1,0 +1,10 @@
+asgiref==3.8.1
+Django==5.1.1
+django-appconf==1.1.0
+django-extra-views==0.14.0
+django-select2==8.3.0
+mysqlclient==2.2.4
+psycopg2-binary==2.9.10
+sqlparse==0.5.1
+gunicorn
+dj-database-url
