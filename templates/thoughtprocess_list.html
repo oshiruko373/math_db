@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>思考プロセス一覧</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">🧠 思考プロセス一覧</h1>
+
+    <!-- 新規追加ボタン -->
+    <div class="text-end mb-3">
+        <a href="{% url 'add_thought_process' %}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> 新しい思考プロセスを追加
+        </a>
+    </div>
+
+    <!-- 思考プロセスリスト -->
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <h4 class="card-title mb-3">📋 思考プロセスリスト</h4>
+            <table class="table table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>説明</th>
+                        <th>関連問題数</th>
+                        <th>関連する思考プロセス</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tp in object_list %}
+                    <tr>
+                        <td>{{ tp.id }}</td>
+                        <td>
+                            <a href="{% url 'thoughtprocess_detail' tp.id %}" class="text-decoration-none">
+                                {{ tp.process|truncatechars:50 }}
+                            </a>
+                        </td>
+                        <td class="text-center">{{ tp.problems.count }}</td>
+                        <td>
+                            {% if tp.related_processes.all %}
+                                <ul class="list-group">
+                                    {% for related_tp in tp.related_processes.all %}
+                                        <li class="list-group-item">{{ related_tp.process|truncatechars:50 }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <span class="text-muted">関連付けられた思考プロセスがありません。</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <a href="{% url 'thoughtprocess_edit' tp.id %}" class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil-square"></i> 編集
+                            </a>
+                            <a href="{% url 'thoughtprocess_delete' tp.id %}" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i> 削除
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">思考プロセスがありません。</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- スタートページへのリンク -->
+    <div class="text-center mt-4">
+        <a href="{% url 'start_page' %}" class="btn btn-secondary">
+            <i class="bi bi-house-door"></i> スタートページへ戻る
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

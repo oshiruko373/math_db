@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>Visualization</title>
+    <link rel="stylesheet" href="{% static 'css/visualization_page.css' %}">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="{% static 'js/visualization.js' %}"></script>
+</head>
+<body>
+<h1>視覚化</h1>
+<div id="visualization"></div>
+
+{{ data|json_script:"graph-data" }}
+{{ related_scores|json_script:"related-scores" }}
+<div class="color_list">
+    <p>0~2件：グレー</p>
+    <p>3~5件：オレンジ</p>
+    <p>6件〜：赤</p>
+</div>    
+<div class="link_to_start_page">
+    <a href="{% url 'start_page' %}">スタートページに戻る</a>
+</div>    
+</body>
+</html>
+

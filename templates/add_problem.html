@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{% if object %}問題編集{% else %}問題追加{% endif %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">📘 {% if object %}問題編集{% else %}問題追加{% endif %}</h1>
+
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="row g-3">
+                    <!-- 出題年度 -->
+                    <div class="col-md-4">
+                        <label class="form-label">📅 出題年度:</label>
+                        {{ form.source_year }}
+                    </div>
+
+                    <!-- 出題大学 -->
+                    <div class="col-md-4">
+                        <label class="form-label">🏫 出題大学:</label>
+                        {{ form.source_university }}
+                    </div>
+
+                    <!-- 出題学部 -->
+                    <div class="col-md-4">
+                        <label class="form-label">🎓 出題学部:</label>
+                        {{ form.source_faculty }}
+                    </div>
+
+                    <!-- BoxURL -->
+                    <div class="col-md-12">
+                        <label class="form-label">🔗 問題URL:</label>
+                        {{ form.boxURL }}
+                    </div>
+
+                    <!-- 難易度 -->
+                    <div class="col-md-6">
+                        <label class="form-label">⭐ 難易度 (1~5):</label>
+                        <select name="difficulty" class="form-select">
+                            <option value="1" {% if form.difficulty.value == 1 %}selected{% endif %}>1 (易しい)</option>
+                            <option value="2" {% if form.difficulty.value == 2 %}selected{% endif %}>2</option>
+                            <option value="3" {% if form.difficulty.value == 3 %}selected{% endif %}>3 (普通)</option>
+                            <option value="4" {% if form.difficulty.value == 4 %}selected{% endif %}>4</option>
+                            <option value="5" {% if form.difficulty.value == 5 %}selected{% endif %}>5 (難しい)</option>
+                        </select>
+                    </div>
+
+                    <!-- 扱う場所 -->
+                    <div class="col-md-6">
+                        <label class="form-label">📍 扱う場所:</label>
+                        <select name="usage_location" class="form-select">
+                            <option value="KONO式" {% if form.usage_location.value == "KONO式" %}selected{% endif %}>KONO式</option>
+                            <option value="徹底基礎講座" {% if form.usage_location.value == "徹底基礎講座" %}selected{% endif %}>徹底基礎講座</option>
+                            <option value="徹底演習講座" {% if form.usage_location.value == "徹底演習講座" %}selected{% endif %}>徹底演習講座</option>
+                        </select>
+                    </div>
+
+                    <!-- タグ -->
+                    <div class="col-md-6">
+                        <label class="form-label">🏷️ タグ:</label>
+                        {{ form.tags }}
+                    </div>
+
+                    <!-- 思考プロセスのチェックボックス選択 -->
+                    <div class="col-md-6">
+                        <label class="form-label">💡 関連する思考プロセス:</label>
+                        {{ form.thought_processes }}
+                    </div>
+
+                    <!-- 良い点 -->
+                    <div class="col-md-12">
+                        <label class="form-label">✨ 良い点:</label>
+                        {{ form.good_points }}
+                    </div>
+                </div>
+
+                <!-- ボタン -->
+                <div class="mt-4 d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-save"></i> 保存する
+                    </button>
+                    <a href="{% url 'start_page' %}" class="btn btn-secondary">
+                        <i class="bi bi-house-door"></i> スタートページへ戻る
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $(".select2").select2({ width: '100%' });
+    });
+</script>
+
+</body>
+</html>
+
+

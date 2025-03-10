@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>思考プロセス詳細</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">🧠 思考プロセス詳細</h1>
+
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <h5 class="card-title">🆔 思考プロセス ID: <span class="badge bg-primary">{{ object.id }}</span></h5>
+
+            <ul class="list-group list-group-flush mb-3">
+                <li class="list-group-item"><strong>📝 説明:</strong> <br> {{ object.process }}</li>
+                <li class="list-group-item"><strong>📘 関連問題数:</strong> {{ object.problems.count }}</li>
+            </ul>
+
+            <h5 class="mt-3"><i class="bi bi-list-check"></i> 関連問題</h5>
+            <ul class="list-group">
+                {% for problem in object.problems.all %}
+                    <li class="list-group-item">
+                        <a href="{% url 'problem_detail' problem.id %}" class="text-decoration-none">
+                            {{ problem.source_university }} ({{ problem.source_year }})
+                        </a>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item text-muted">関連付けられた問題がありません。</li>
+                {% endfor %}
+            </ul>
+
+            <div class="mt-4 d-flex justify-content-between">
+                <a href="{% url 'thoughtprocess_edit' object.id %}" class="btn btn-warning">
+                    <i class="bi bi-pencil-square"></i> 編集
+                </a>
+                <a href="{% url 'thoughtprocess_delete' object.id %}" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> 削除
+                </a>
+                <a href="{% url 'thoughtprocess_list' %}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left-circle"></i> 戻る
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
